@@ -1,0 +1,52 @@
+// Fonts
+@import url('https://fonts.bunny.net/css?family=Nunito');
+
+// Variables
+@import 'variables';
+
+// Bootstrap
+@import 'bootstrap/scss/bootstrap';
+
+// DataTables
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+@import "datatables.net-bs5/css/dataTables.bootstrap5.min.css";
+@import "datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css";
+@import 'datatables.net-select-bs5/css/select.bootstrap5.css';
+
+// DataTables
+.task_view {
+    border: 1px solid $light_text;
+    border-radius: 4px;
+    display: inline-flex;
+
+    .taskView {
+        padding: 0px 7px;
+        line-height: 2;
+        color: $light_text;
+        border-right: 1px solid $light_text;
+
+        &:hover {
+            background-color: $additional_grey;
+        }
+    }
+
+    .task_view_more {
+        color: $light_text;
+        padding: 6.3px 5px;
+        border-radius: 4px;
+
+        &:hover {
+            background-color: $additional_grey;
+        }
+
+        &:after {
+            content: none;
+        }
+    }
+
+    .dropdown-menu {
+        border: 0;
+        -webkit-box-shadow: 1px 4px 6px 4px #68686814;
+        box-shadow: 1px 4px 6px 4px #68686814;
+    }
+}
