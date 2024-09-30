@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('subtitle', 'courses')
-@section('content_header_title', 'coursees')
+@section('subtitle', 'Asignaturas')
+@section('content_header_title', 'Asignaturas')
 @section('content_header_subtitle', $course->name)
 {{-- Content body: main page content --}}
 

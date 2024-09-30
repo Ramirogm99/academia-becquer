@@ -20,15 +20,6 @@ class ClientsDataTable extends DataTable
     public function dataTable($query)
     {
         $datatables = datatables()->eloquent($query);
-        // $action = '<div class="task_view">
-        // <div class="dropdown">
-        //     <a class="task_view_more d-flex align-items-center justify-content-center dropdown-toggle" type="link"
-        //         id="dropdownMenuLink-' . $row->id . '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        //         <i class="icon-options-vertical icons"></i>
-        //     </a>
-        //     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink-' . $row->id . '" tabindex="0">';
-
-        // $action .= '<a href="' . route('estimates.show', [$row->id]) . '" class="dropdown-item"><i class="fa fa-eye mr-2"></i>' . __('app.view') . '</a>';
         $datatables->editColumn('action', function ($row) {
             $action = '<div class="task_view">
             <div class="dropdown">
@@ -60,7 +51,7 @@ class ClientsDataTable extends DataTable
         if ($request->search['value'] != null) {
             $model->where('name', 'like', '%' . $request->search['value'] . '%');
             $model->orWhere('phone', 'like', '%' . $request->search['value'] . '%');
-            $model->orWhere('tutor', 'like', '%' . $request->search['value'] . '%');
+            $model->orWhere('surnames', 'like', '%' . $request->search['value'] . '%');
             $model->orWhere('school', 'like', '%' . $request->search['value'] . '%');
             $model->whereHas('courses', function ($q) use ($request) {
                 $q->where('name', 'like', '%' . $request->search['value'] . '%');
@@ -101,15 +92,13 @@ class ClientsDataTable extends DataTable
     {
         $data = [
             'Nombre' => ['data' => 'name', 'name' => 'name', 'title' => 'Nombre'],
-            'Numero' => ['data' => 'phone', 'name' => 'phone', 'title' => 'Numero'],
-            'Tutor' => ['data' => 'tutor', 'name' => 'tutor', 'title' => 'Tutor'],
-            'Colegio' => ['data' => 'school', 'name' => 'school', 'title' => 'Colegio'],
+            'Apellidos' => ['data' => 'surnames', 'name' => 'surnames', 'title' => 'Apellidos'],
             Column::computed('action', 'Acciones')
                 ->exportable(false)
                 ->printable(false)
                 ->orderable(false)
                 ->searchable(false)
-                ->addClass('text-right pr-20')
+                ->addClass('text-right')
         ];
         return $data;
     }

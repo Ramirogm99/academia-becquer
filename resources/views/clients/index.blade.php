@@ -17,7 +17,7 @@
     </div>
     <div class="container">
         <div class="card">
-            <div class="card-body" style="width: 100%">
+            <div class="card-body">
                 {!! $dataTable->table(['id' => 'clients-table']) !!}
             </div>
         </div>
@@ -43,16 +43,8 @@
                         name: 'name'
                     },
                     {
-                        data: 'phone',
-                        name: 'phone'
-                    },
-                    {
-                        data: 'tutor',
-                        name: 'tutor'
-                    },
-                    {
-                        data: 'school',
-                        name: 'school'
+                        data: 'surnames',
+                        name: 'surnames'
                     },
                     {
                         data: 'action',

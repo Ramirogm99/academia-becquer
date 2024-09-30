@@ -44,5 +44,8 @@ Route::group(['prefix' => 'payments'], function () {
     Route::get('/', [PaymentsController::class, 'index'])->name('payments.index');
     // Route::get('/delete/{id}', [PaymentsController::class, 'delete'])->name('payments.delete');
     Route::get('/paydone/{id}', [PaymentsController::class, 'makeAPayment'])->name('payments.paydone');
+    Route::get('/getPrices', [PaymentsController::class, 'getPrices'])->name('payments.getPrices');
+    Route::get('/client_payment/{id}', [PaymentsController::class, 'clientPayment'])->name('payments.client_payment');
+    Route::get('/makeAPaymentClient', [PaymentsController::class, 'makeAPaymentFromClient'])->name('payments.makeAPaymentClient');
 });
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

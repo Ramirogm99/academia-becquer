@@ -24,6 +24,16 @@
                             @enderror
                         </div>
                         <div class="form-group col-3
+                        @error('tutor') has-error @enderror">
+                            <label for="tutor">Apellidos</label>
+                            <input type="text" class="form-control" id="tutor" name="surnames"
+                                value="{{ $client->surnames }}">
+                            @error('tutor')
+                                <span class="help-block
+                                text-danger">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group col-3
                         @error('phone') has-error @enderror">
                             <label for="phone">Teléfono</label>
                             <input type="text" class="form-control" id="phone" name="phone"
@@ -33,16 +43,7 @@
                                 text-danger">{{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="form-group col-3
-                        @error('tutor') has-error @enderror">
-                            <label for="tutor">Tutor</label>
-                            <input type="text" class="form-control" id="tutor" name="tutor"
-                                value="{{ $client->tutor }}">
-                            @error('tutor')
-                                <span class="help-block
-                                text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
+
                         <div class="form-group col-3
                         @error('school') has-error @enderror">
                             <label for="school">Colegio</label>
@@ -52,6 +53,10 @@
                                 <span class="help-block
                                 text-danger">{{ $message }}</span>
                             @enderror
+                        </div>
+                        <div class="form-group col-3">
+                            <label for="observations">Observaciones</label>
+                            <textarea name="observations" id="observations" cols="30" rows="10">{{ $client->observations }}</textarea>
                         </div>
                         <div class=" col-3">
                             <label for="level">Nivel Académico</label>
@@ -86,11 +91,12 @@
                             </select>
                         </div>
                         <div class=" col-3">
-                            <label for="course">Cursos</label>
+                            <label for="course">Asignaturas</label>
                             <select class="form-control" id="course" data-live-search="true">
-                                <option value="">Selecciona el Curso</option>
+                                <option value="">Selecciona Asignaturas</option>
                                 @foreach ($courses as $course)
-                                    <option value="{{ $course->id }}" extra-attr="{{ $course->price }}">
+                                    @endphp
+                                    <option value="{{ $course->id }}" extra-attr="{{ $course->course }}">
                                         {{ $course->name }}</option>
                                 @endforeach
                             </select>
@@ -101,19 +107,57 @@
                     </div>
                     <div id="sortable" class="row mb-5 mt-5">
                         @foreach ($coursesClient as $courseClient)
-                            <div class="col-12 mb-2 item-row">
-                                <input type="hidden" name="courses[]" value="{{ $courseClient->id }}">
-                                <button type="button" class="btn btn-danger remove-class">Eliminar</button>
-                                <b>
-                                    {{ $courseClient->course->name }}
-                                </b>
-                                <span class="col-2">{{ $courseClient->course->price }}€/h</span>
-                                <input type="hidden" class="price" value="{{ $courseClient->price }}"><input
-                                    type="number" class="col-2 ml-2 hours" name="hours[]"
-                                    value="{{ $courseClient->hours }}">
-                                <span class="price_total">Total: {{ $courseClient->total }}€</span><input type="hidden"
-                                    class="price_calculated" name="price_total[]" value="{{ $courseClient->total }}">
-                            </div>
+                            @if (
+                                $courseClient->course->course == '1' ||
+                                    $courseClient->course->course == '2' ||
+                                    $courseClient->course->course == '3' ||
+                                    $courseClient->course->course == '4' ||
+                                    $courseClient->course->course == '5' ||
+                                    $courseClient->course->course == '6' ||
+                                    $courseClient->course->course == '7' ||
+                                    $courseClient->course->course == '8' ||
+                                    $courseClient->course->course == '9' ||
+                                    $courseClient->course->course == '10' ||
+                                    $courseClient->course->course == '11' ||
+                                    $courseClient->course->course == '12')
+                                <div class="col-7 mb-2 item-row">
+                                    <input type="hidden" name="courses_clients[]" value="{{ $courseClient->id }}">
+                                    <input type="hidden" name="courses[]" value="{{ $courseClient->course_id }}">
+                                    <button type="button" class="btn btn-danger remove-class">Eliminar</button>
+                                    <b>{{ $courseClient->course->name }}</b> Horas:
+                                    <select class="form-control w-25 d-inline" id="hours" name="hours[]">
+                                        <option value="2" @if ($courseClient->hours == '2') selected @endif>2
+                                        </option>
+                                        <option value="3" @if ($courseClient->hours == '3') selected @endif>3
+                                        </option>
+                                        <option value="4" @if ($courseClient->hours == '4') selected @endif>4
+                                        </option>
+                                        <option value="5" @if ($courseClient->hours == '5') selected @endif>5
+                                        </option>
+                                        <option value="6" @if ($courseClient->hours == '6') selected @endif>6
+                                        </option>
+                                        <option value="8" @if ($courseClient->hours == '8') selected @endif>8
+                                        </option>
+                                    </select>
+                                </div>
+                            @endif
+                            @if ($courseClient->course->course == '13')
+                                <div class="col-7 mb-2 item-row"><input type="hidden" name="courses[]"
+                                        value="{{ $courseClient->id }}"><button type="button"
+                                        class="btn btn-danger remove-class">Eliminar</button>
+                                    <b>{{ $courseClient->course->name }}</b> Horas:
+                                    <select class="form-control w-25 d-inline" id="hours" name="hours[]">
+                                        <option value="1" @if ($courseClient->hours == '1') selected @endif>1
+                                        </option>
+                                        <option value="2" @if ($courseClient->hours == '2') selected @endif>2
+                                        </option>
+                                        <option value="3" @if ($courseClient->hours == '3') selected @endif>3
+                                        </option>
+                                        <option value="4" @if ($courseClient->hours == '4') selected @endif>4
+                                        </option>
+                                    </select>
+                                </div>
+                            @endif
                         @endforeach
                     </div>
                     <div class="row ml-2">
@@ -135,18 +179,61 @@
                     alert('Selecciona un curso');
                     return;
                 } else {
-                    $('#sortable').append(
-                        '<div class="col-12 mb-2 item-row"><input type="hidden" name="courses[]" value="' +
-                        class_id +
-                        '"><button type="button" class="btn btn-danger remove-class">Eliminar</button><b>' +
-                        $('#course option:selected').text() +
-                        '</b><span class="col-2">' + $(
-                            '#course option:selected').attr('extra-attr') +
-                        '€/h</span><input type="hidden" class="price" value="' +
-                        $(
-                            '#course option:selected').attr('extra-attr') +
-                        '"><input type="number" class="col-2 ml-2 hours" name="hours[]"><span class="price_total"></span><input type="hidden" class="price_calculated" name="price_total[]" value=""></div>'
-                    );
+                    if ($('#course').attr('extra-attr') == '') {
+                        alert('Selecciona un curso');
+                        return;
+                    }
+                    if ($('#course option:selected').attr('extra-attr') == '1' || $(
+                            '#course option:selected').attr('extra-attr') ==
+                        '2' || $('#course option:selected').attr('extra-attr') == '3' || $(
+                            '#course option:selected')
+                        .attr('extra-attr') == '4' || $('#course option:selected').attr('extra-attr') ==
+                        '5' || $(
+                            '#course option:selected').attr('extra-attr') == '6' || $(
+                            '#course option:selected')
+                        .attr('extra-attr') == '7' || $('#course option:selected').attr('extra-attr') ==
+                        '8' || $(
+                            '#course option:selected').attr('extra-attr') == '9' || $(
+                            '#course option:selected') ==
+                        '10' || $('#course option:selected').attr('extra-attr') == '11' || $(
+                            '#course option:selected')
+                        .attr('extra-attr') == '12'
+                    ) {
+                        $('#sortable').append(
+                            '<div class="col-7 mb-2 item-row"><input type="hidden" name="courses[]" value="' +
+                            class_id +
+                            '"><button type="button" class="btn btn-danger remove-class">Eliminar</button><b>' +
+                            $('#course option:selected').text() +
+                            '</b>' +
+                            ' Horas: ' +
+                            '<select class="form-control w-25 d-inline" id="hours" name="hours[]">' +
+                            '<option value="2">2</option>' +
+                            '<option value="3">3</option>' +
+                            '<option value="4">4</option>' +
+                            '<option value="5">5</option>' +
+                            '<option value="6">6</option>' +
+                            '<option value="8">8</option>' +
+                            '</select>'
+                        );
+                    }
+                    if ($('#course option:selected').attr('extra-attr') == '13') {
+                        $('#sortable').append(
+                            '<div class="col-7 mb-2 item-row">' +
+                            '<input type="hidden" name="courses[]" value="' + class_id + '">' +
+                            '<button type="button" class="btn btn-danger remove-class">Eliminar</button>' +
+                            '<b>' +
+                            $('#course option:selected').text() +
+                            '</b>' +
+                            ' Horas: ' +
+                            '<select class="form-control w-25 d-inline" id="hours" name="hours[]">' +
+                            '<option value="1">1</option>' +
+                            '<option value="2">2</option>' +
+                            '<option value="3">3</option>' +
+                            '<option value="4">4</option>' +
+                            '</select>' +
+                            '</div>'
+                        );
+                    }
                 }
             });
         });

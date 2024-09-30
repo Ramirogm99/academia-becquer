@@ -1,8 +1,8 @@
 @extends('layouts.app')
 {{-- Customize layout sections --}}
-@section('subtitle', 'Cursos')
-@section('content_header_title', 'Cursos')
-@section('content_header_subtitle', 'Listado de Cursos')
+@section('subtitle', 'Asignaturas')
+@section('content_header_title', 'Asignaturas')
+@section('content_header_subtitle', 'Listado de Asignaturas')
 {{-- Content body: main page content --}}
 
 

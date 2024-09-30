@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\DataTables\PaymentsDataTable;
 use App\Models\ClientCourse;
+use App\Models\Clients;
+use App\Models\Courses;
 use App\Models\Payments;
 use Carbon\Carbon;
 use charlieuki\ReceiptPrinter\ReceiptPrinter as ReceiptPrinter;
@@ -71,6 +73,51 @@ class PaymentsController extends Controller
             'amount' => $total,
         ]);
         $printer->printRequest();
+    }
+    public function clientPayment($id)
+    {
+        $client = Clients::find($id);
+        return view('payments.client_payment', ['client' => $client]);
+    }
+    public function getPrices(Request $request)
+    {
+
+        $year = Carbon::now()->year;
+        $startMonthRequest = Carbon::create($year)->month($request->month)->startOfMonth();
+        $endMonthRequest = Carbon::create($year)->month($request->month)->endOfMonth();
+
+        if ($request->month > Carbon::now()->month) {
+            $startMonthRequest = Carbon::create($year)->month($request->month)->startOfMonth()->subYear();
+            $endMonthRequest = Carbon::create($year)->month($request->month)->endOfMonth()->subYear();
+        }
+        $coursePaid = ClientCourse::
+            where('client_id', $request->client_id)
+            ->whereHas('payments', function ($query) use ($startMonthRequest, $endMonthRequest) {
+                $query->whereBetween('created_at', [$startMonthRequest, $endMonthRequest]);
+            })
+            ->get();
+        if (!$coursePaid) {
+            $coursePrice = ClientCourse::where('client_id', $request->client_id)
+                ->whereMonth('created_at', $request->month)
+                ->sum('total');
+            $courses = ClientCourse::with('course')->where('client_id', $request->client_id)
+                ->whereMonth('created_at', $request->month)->get();
+            return json_encode(['price' => $coursePrice, 'courses' => $courses]);
+        }
+        return json_encode(['price' => 0, 'courses' => []]);
+    }
+    public function makeAPaymentFromClient(Request $request)
+    {
+        $payment = new Payments();
+        $courseClient = ClientCourse::where('client_id', $request->client_id)->get();
+        dd($courseClient);
+        foreach ($courseClient as $key => $course) {
+
+            $payment->course_client_id = $course->id;
+            $payment->save();
+        }
+        $this->printPayment($courseClient);
+        return redirect()->route('clients.index', ['id' => $request->client_id]);
     }
     //
 }

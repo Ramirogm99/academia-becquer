@@ -1,7 +1,7 @@
 @extends('layouts.app')
-@section('subtitle', 'Clients')
-@section('content_header_title', 'Clientes')
-@section('content_header_subtitle', 'Creación de clientes')
+@section('subtitle', 'Asignaturas')
+@section('content_header_title', 'Asignaturas')
+@section('content_header_subtitle', 'Creación de Asignaturas')
 {{-- Content body: main page content --}}
 
 
@@ -17,15 +17,6 @@
                             <label for="name">Nombre</label>
                             <input type="text" class="form-control" id="name" name="name" value="">
                             @error('name')
-                                <span class="help-block
-                                text-danger">{{ $message }}</span>
-                            @enderror
-                        </div>
-                        <div class="form-group col-3
-                        @error('tutor') has-error @enderror">
-                            <label for="tutor">Precio</label>
-                            <input type="number" class="form-control" id="price" name="price" value="" step=".01">
-                            @error('tutor')
                                 <span class="help-block
                                 text-danger">{{ $message }}</span>
                             @enderror
@@ -63,25 +54,4 @@
     </div>
 @endsection
 @push('js')
-    <script>
-        $(document).ready(function() {
-            $('#add-classes').click(function() {
-                var class_id = $('#course').val();
-                if (class_id == '') {
-                    alert('Selecciona un curso');
-                    return;
-                } else {
-                    $('#sortable').append(
-                        '<div class="col-3"><input type="hidden" name="courses[]" value="' + class_id +
-                        '"><button type="button" class="btn btn-danger remove-class">Eliminar</button>' +
-                        $('#course option:selected').text() +
-                        '<input type="" name="courses_price'
-                        '</div>');
-                }
-            });
-            $(document).on('click', '.remove-class', function() {
-                $(this).parent().remove();
-            });
-        });
-    </script>
 @endpush

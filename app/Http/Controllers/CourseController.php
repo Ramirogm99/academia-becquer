@@ -38,7 +38,6 @@ class CourseController extends Controller
     {
         $course = Courses::find($request->course_id);
         $course->name = $request->name;
-        $course->price = $request->price;
         $course->course = $request->course;
         $course->save();
         return redirect()->route('courses.index');
